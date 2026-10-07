@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>个人作品集 · Creative Portfolio</title>
+<style>
+:root{--main:#5b4636;--accent:#e8965a;--accent2:#f3c892;--bg:#fdf8f2;--card:#fffdf9;--text:#4a3f35;--grey:#9a8b7d;--radius:20px}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:"PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);line-height:1.8}
+a{color:var(--accent);text-decoration:none}
+.container{max-width:1200px;margin:0 auto;padding:0 24px}
+
+/* 大标题 */
+.title-hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;background:linear-gradient(135deg,#f9ead6,#f6d7b0 50%,#eec08a);position:relative;padding:0 24px}
+.title-hero .en{letter-spacing:14px;font-size:clamp(13px,1.6vw,18px);color:#a3815c;margin-bottom:22px;font-weight:600}
+.title-hero h1{font-size:clamp(44px,8vw,92px);color:#4a3524;line-height:1.25;margin-bottom:24px;font-weight:800}
+.title-hero h1 em{font-style:normal;color:#c77b3a}
+.title-hero p{font-size:clamp(15px,2vw,19px);color:#6b5540;max-width:680px;margin-bottom:38px}
+.title-hero .tags{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+.title-hero .tags span{background:rgba(255,255,255,.65);border:1px solid rgba(180,130,80,.35);padding:7px 20px;border-radius:22px;font-size:14px;color:#6b5540}
+.scroll-hint{position:absolute;bottom:34px;color:#a3815c;font-size:13px;animation:bob 1.8s infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(8px)}}
+
+/* 导航 */
+nav{position:fixed;top:0;left:0;right:0;background:rgba(253,248,242,.94);backdrop-filter:blur(10px);z-index:100;border-bottom:1px solid #f0e4d5}
+nav .container{display:flex;justify-content:space-between;align-items:center;height:60px}
+nav .logo{font-weight:700;font-size:18px;color:var(--main)}
+nav ul{display:flex;gap:24px;list-style:none}
+nav a{color:var(--text);font-size:14px}
+nav a:hover{color:var(--accent)}
+
+section{padding:80px 0}
+.sec-title{text-align:center;margin-bottom:44px}
+.sec-title h2{font-size:34px;color:var(--main)}
+.sec-title h2::before{content:"❀ ";color:var(--accent2)}
+.sec-title p{color:var(--grey);font-size:15px;margin-top:8px}
+
+/* 工具技能三分组 */
+.skill-groups{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px}
+.skill-group{background:var(--card);border-radius:var(--radius);padding:32px 28px;text-align:center;border:1px solid #f3e8d8;box-shadow:0 6px 24px rgba(180,130,80,.10);transition:transform .25s}
+.skill-group:hover{transform:translateY(-6px)}
+.skill-group .icon{font-size:38px;margin-bottom:12px}
+.skill-group h3{font-size:19px;color:var(--main);margin-bottom:16px}
+.skill-group .items{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+.skill-group .items span{background:#faf3e8;border:1px solid #ecd9bd;padding:8px 18px;border-radius:22px;font-size:14px;color:#6b5b4b}
+
+/* 文案：三框一行，等大，悬停展开 */
+.copy-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.copy-box{position:relative;background:var(--card);border:1px solid #f3e8d8;border-radius:var(--radius);padding:26px 26px 46px;box-shadow:0 6px 24px rgba(180,130,80,.10);height:340px;overflow:hidden;transition:all .35s ease;cursor:pointer}
+.copy-box:hover{height:auto;min-height:340px;box-shadow:0 12px 36px rgba(180,130,80,.20);transform:translateY(-4px);z-index:10}
+.copy-box .type{display:inline-block;background:#fdf3e3;color:#b08a5e;font-size:12px;padding:4px 12px;border-radius:14px;margin-bottom:10px}
+.copy-box h3{font-size:17px;color:var(--main);margin-bottom:6px}
+.copy-box .role{color:var(--accent);font-size:12.5px;font-weight:600;margin-bottom:12px}
+.copy-box .quote{background:#faf3e8;border:1px dashed #ecd9bd;border-radius:12px;padding:18px 20px;font-size:13.5px;color:#6b5b4b;white-space:pre-line;font-style:italic}
+.copy-box .note{margin-top:12px;font-size:13px;color:#b08a5e;background:#fdf3e3;padding:8px 12px;border-radius:8px}
+.copy-box .expand-tip{position:absolute;bottom:12px;left:0;right:0;text-align:center;font-size:12px;color:#c9a678;background:linear-gradient(transparent,var(--card) 30%);padding:14px 0 4px;transition:opacity .2s,visibility .2s;pointer-events:none}
+.copy-box:hover .expand-tip{opacity:0;visibility:hidden}
+
+/* 通用卡片网格：等高 */
+.trio-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.duo-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px}
+.info-card{background:var(--card);border:1px solid #f3e8d8;border-radius:var(--radius);padding:26px;box-shadow:0 6px 24px rgba(180,130,80,.10);display:flex;flex-direction:column;min-height:520px;transition:transform .25s}
+.info-card:hover{transform:translateY(-5px)}
+.info-card h3{font-size:19px;color:var(--main);margin-bottom:6px}
+.info-card .role{color:var(--accent);font-size:13px;font-weight:600;margin-bottom:10px}
+.info-card .data{background:#fdf3e3;border-left:3px solid var(--accent);padding:9px 14px;border-radius:8px;font-size:13.5px;margin:10px 0;color:#7a5f42}
+.info-card ul{padding-left:18px;font-size:13.5px;color:#6b5b4b;margin-bottom:12px}
+.info-card li{margin:4px 0}
+.info-card .card-btns{margin-top:auto}
+.btn{display:inline-block;padding:8px 22px;background:var(--accent);color:#fff;border-radius:22px;font-size:14px}
+.btn:hover{opacity:.85}
+.btn.ghost{background:transparent;border:1.5px solid var(--accent);color:var(--accent)}
+
+/* 封面：统一尺寸裁切 */
+.cover{height:200px;border-radius:14px;overflow:hidden;margin-bottom:14px;background:#faf3e8;cursor:pointer}
+.cover img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block;transition:transform .25s}
+.cover:hover img{transform:scale(1.04)}
+
+/* 图片横向排列 + 点击放大 */
+.img-row{display:flex;gap:12px;overflow-x:auto;padding-bottom:8px;margin-top:12px}
+.img-row::-webkit-scrollbar{height:6px}
+.img-row::-webkit-scrollbar-thumb{background:#ecd9bd;border-radius:6px}
+.img-row img,.img-row video{height:190px;border-radius:12px;object-fit:cover;cursor:pointer;transition:transform .2s;flex-shrink:0}
+.img-row img:hover{transform:scale(1.03)}
+.img-row video{width:auto}
+
+/* 灯箱 */
+.lightbox{position:fixed;inset:0;background:rgba(30,20,10,.88);display:none;align-items:center;justify-content:center;z-index:999;padding:40px}
+.lightbox.show{display:flex}
+.lightbox img,.lightbox video{max-width:92vw;max-height:88vh;border-radius:14px}
+.lightbox .close{position:absolute;top:20px;right:34px;color:#fff;font-size:40px;cursor:pointer;line-height:1}
+
+footer{background:linear-gradient(135deg,#5b4636,#7a5f42);color:#fff;text-align:center;padding:50px 20px}
+footer h2{color:#fff}
+footer h2::before{content:"❀ ";color:var(--accent2)}
+
+@media(max-width:900px){.trio-grid,.duo-grid,.copy-grid{grid-template-columns:1fr}nav ul{display:none}}
+@media(min-width:901px) and (max-width:1150px){.trio-grid{grid-template-columns:repeat(2,1fr)}.copy-grid{grid-template-columns:repeat(3,1fr)}}
+</style>
+</head>
+<body>
+
+<!-- ============ 作品集大标题 ============ -->
+<div class="title-hero" id="top">
+  <div class="en">CREATIVE PORTFOLIO 2025</div>
+  <h1>创意运营 × 内容创作<br><em>让表达被看见</em></h1>
+  <p>从 0 到 1 搭建多个自媒体账号，累计曝光 50w+、互动 10w+<br>用数据驱动策略，用文字传递温度，用镜头讲好每一个故事</p>
+  <div class="tags">
+    <span>内容策划</span><span>文案写作</span><span>视频剪辑</span><span>AI 生成内容</span><span>用户增长</span>
+  </div>
+  <div class="scroll-hint">↓ 向下滚动</div>
+</div>
+
+<nav>
+  <div class="container">
+    <div class="logo">✿ PORTFOLIO</div>
+    <ul>
+      <li><a href="#skills">工具技能</a></li>
+      <li><a href="#copywriting">01 文案能力</a></li>
+      <li><a href="#media">02 自媒体运营</a></li>
+      <li><a href="#video">03 视频剪辑</a></li>
+      <li><a href="#market">04 市场产出</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ============ 工具技能 ============ -->
+<section id="skills">
+  <div class="container">
+    <div class="sec-title">
+      <h2>工具技能</h2>
+      <p>图片处理 · 视频处理 · AIGC 生成，三大能力板块构建完整内容工作流</p>
+    </div>
+    <div class="skill-groups">
+      <div class="skill-group">
+        <div class="icon">🎨</div>
+        <h3>图片处理</h3>
+        <div class="items">
+          <span>Photoshop</span><span>Canva 可画</span><span>秀米</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="icon">🎬</div>
+        <h3>视频处理</h3>
+        <div class="items">
+          <span>Premiere Pro</span><span>After Effects</span><span>剪映</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="icon">🤖</div>
+        <h3>AIGC</h3>
+        <div class="items">
+          <span>即梦 AI</span><span>Midjourney</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 01 文案能力：三框等大 悬停展开 ============ -->
+<section id="copywriting">
+  <div class="container">
+    <div class="sec-title">
+      <h2>01 / 文案能力</h2>
+      <p>多种风格自由切换，始终抓准表达核心（鼠标悬停卡片可展开全文）</p>
+    </div>
+    <div class="copy-grid">
+
+      <div class="copy-box">
+        <span class="type">公众号 · 文艺节气风</span>
+        <h3>春分节气推文</h3>
+        <div class="role">春洒大地，万象更新</div>
+        <div class="quote">春洒大地，万象更新。
+清风过，叶见绿，玉兰暗香浓。
+这是一场热烈的庆典，
+我们与春光共贺新生；
+这是一场浪漫的奔赴，
+我们与春天撞个满怀。
+在二十四节气之一的春分来临之际，
+让我们版艺学子一起领略春的烂漫生机，
+将新的温暖与幸福传递。
+……
+春分已至，花枝春满，
+借一缕风，吹散冰封的沉寂；
+借一树花，点缀心中的梦想。
+谁把春光，平分一半，最惜今朝。
+趁取春光，还留一半，莫负今朝！
+愿每一个版艺学子
+都可以在这春分之际，
+如同春风拂面，
+心中充满对美好未来的向往与期待，
+扬帆起航，追逐梦想的光芒，
+书写属于自己的壮丽篇章。</div>
+        <div class="note">✦ 节点情感共鸣，对仗意象营造画面感</div>
+        <div class="expand-tip">👆 悬停展开全文</div>
+      </div>
+
+      <div class="copy-box">
+        <span class="type">小红书 · 路人种草风</span>
+        <h3>书籍推广笔记</h3>
+        <div class="role">《穿西装的椅子》</div>
+        <div class="quote">脑腐自救DAY1——做笔记📝
+看网上说，读书的时候做笔记有助于集中注意力，试了一下确实不错[超喜欢R][超喜欢R][超喜欢R]
+不过话说回来，姬中宪老师写的这本《穿西装的椅子》真的好好，尤其是这篇《黎明泻》，把被算法裹挟下出租车司机的生存压力写的太清楚，字里行间全是与打工人的共情（枯了
+而且小短篇读起来没有什么压力，感觉很适合给大脑复建用，推荐推荐！</div>
+        <div class="note">✦ 路人视角 + 网感表达，弱化广告感提升可信度</div>
+        <div class="expand-tip">👆 悬停展开全文</div>
+      </div>
+
+      <div class="copy-box">
+        <span class="type">品牌 · 活动 Slogan</span>
+        <h3>Shake Shack 七周年</h3>
+        <div class="role">总 Slogan：Cheers To Something Good</div>
+        <div class="quote">Cheer to something good</div>
+        <div class="note">✦ 延续品牌 "Stand For Something Good" 理念，用"敬"字串联具象场景，把 Slogan 落到用户的真实生活情绪里</div>
+        <div class="expand-tip">👆 悬停展开全文</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ 02 自媒体运营：一行三个 等大封面 ============ -->
+<section id="media">
+  <div class="container">
+    <div class="sec-title">
+      <h2>02 / 自媒体运营</h2>
+      <p>垂直赛道 · AI 创新赛道 · 人设娱乐赛道</p>
+    </div>
+    <div class="trio-grid">
+
+      <div class="info-card">
+        <div class="cover" onclick="openLbUrl('https://t1.chatglm.cn/file/6ac4f2663dcec8374aaece7b.png?expired_at=1791724109&sign=78c29c887fa8a052a71cc4ac682185e8&ext=png')">
+          <img src="image/1.png" alt="美食探店账号笔记数据截图">
+        </div>
+        <h3>美食探店账号（从 0 到 1）</h3>
+        <div class="role">独立运营 | 用户画像 + 差异化内容策略</div>
+        <div class="data">📈 曝光总量 50w+，多篇笔记 300+ 赞藏</div>
+        <ul>
+          <li>从 0 到 1 搭建美食垂直探店账号</li>
+          <li>基于用户画像分析制定差异化内容策略</li>
+          <li>持续产出爆款内容，建立稳定流量来源</li>
+        </ul>
+        <div class="card-btns">
+          <a class="btn" href="https://xhslink.cn/o/6YejF4n7Tx9" target="_blank">查看主页</a>
+          <a class="btn ghost" href="https://www.xiaohongshu.com/discovery/item/68c638ac000000001b0353f4" target="_blank" style="margin-left:8px">爆款</a>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="cover" onclick="openLbUrl('https://t1.chatglm.cn/file/6ac4f2a13dcec8374aaecf5c.png?expired_at=1791724109&sign=3677a17c6497ff28100ba23be9d0aabf&ext=png')">
+          <img src="image/2.png" alt="AI 动态表情包作品截图">
+        </div>
+        <h3>小红书 AIGC 生成账号</h3>
+        <div class="role">合作运营 | 商业模式转化 · 内容制作</div>
+        <div class="data">📈 首创 AI 动图表情包 · 使用 1000+ 次 · 互动 10w+</div>
+        <ul>
+          <li>主导古诗词、表情包系列内容制作</li>
+          <li>2024 年全平台首创 AI 动图表情包</li>
+        </ul>
+        <div class="card-btns">
+          <a class="btn" href="https://xhslink.cn/o/3U8meTDoiUZ" target="_blank">查看主页</a>
+          <a class="btn ghost" href="https://www.xiaohongshu.com/discovery/item/669e26fe000000002701013a" target="_blank" style="margin-left:8px">表情包</a>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="cover" onclick="openLbUrl('https://t1.chatglm.cn/file/6ac4f2b4fc04e6cfe73d2efa.png?expired_at=1791724109&sign=e407146cfae572b91ce8f2bad25bccff&ext=png')">
+          <img src="image/3.png" alt="抖音兼职吐槽账号主页截图">
+        </div>
+        <h3>抖音兼职吐槽账号</h3>
+        <div class="role">合作运营 | 风格打造 + 选题 + 剪辑</div>
+        <div class="data">📈 累计获赞 1180+</div>
+        <ul>
+          <li>负责账号整体风格打造</li>
+          <li>确立系列化选题方向，持续输出内容</li>
+          <li>独立完成后期剪辑与包装</li>
+        </ul>
+        <div class="card-btns">
+          <a class="btn" href="https://v.douyin.com/XWYxPFDkFSM/" target="_blank">查看主页</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ 03 视频剪辑：一行两个 等大 + 创作阐述 ============ -->
+<section id="video">
+  <div class="container">
+    <div class="sec-title">
+      <h2>03 / 视频剪辑</h2>
+      <p>策划 / 脚本 / 拍摄 / 剪辑 / AI 生成的全流程能力</p>
+    </div>
+    <div class="duo-grid">
+
+      <div class="info-card">
+        <h3>影视混剪 ·《自帰》</h3>
+        <div class="role">剪辑：节奏 / 卡点 / 情绪叙事</div>
+        <div class="img-row">
+          <img src="image/4.jpg" alt="影视混剪封面《自赎》" onclick="openLb(this)">
+        </div>
+        <ul style="margin-top:14px">
+          <li>围绕人物语言与镜头语言重新结构叙事</li>
+          <li>通过卡点剪辑与光影色调统一，强化情绪递进</li>
+          <li>书法字体与画面留白呼应，兼顾氛围感与传播记忆点</li>
+        </ul>
+        <div class="card-btns">
+          <a class="btn" href="https://www.bilibili.com/video/BV1jC411b7TY/" target="_blank">▶ B站观看</a>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <h3>AIGC 影片 ·《七夕》</h3>
+        <div class="role">策划 + AI 生图 + 剪辑 全流程</div>
+        <div class="img-row">
+          <img src="image/5.png" alt="AIGC 影片《七夕》封面" onclick="openLb(this)">
+        </div>
+        <ul style="margin-top:14px">
+          <li>独立完成策划、Midjourney/即梦生图与后期剪辑全流程</li>
+          <li>以鹊桥相会的东方意象重构七夕叙事，古风插画质感统一视觉调性</li>
+          <li>通过镜头缩放与粒子特效营造流动感，探索 AI 生成内容的成片可能</li>
+        </ul>
+        <div class="card-btns">
+          <a class="btn" href="https://www.xiaohongshu.com/discovery/item/66b49722000000001e018b2d" target="_blank">▶ 小红书观看</a>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <h3>口播视频</h3>
+        <div class="role">策划 + 文稿 + 剪辑</div>
+        <div class="img-row">
+          <img src="image/6.png" alt="口播视频封面" onclick="openLb(this)">
+        </div>
+        <ul style="margin-top:14px">
+          <li>独立撰写口播脚本，用"悬念开场 + 痛点共鸣"结构提升完播率</li>
+          <li>多机位素材交叉剪辑，配合花字与音效强化节奏，降低观看疲劳</li>
+          <li>文案口语化打磨，兼顾信息密度与"人味儿"表达</li>
+        </ul>
+        <div class="card-btns">
+          <a class="btn" href="https://www.xiaohongshu.com/discovery/item/6911ae2c000000000703a2bd" target="_blank">▶ 小红书观看</a>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <h3>影视广告</h3>
+        <div class="role">风格设定 + 脚本 + 拍摄 + 剪辑 全链路</div>
+        <div class="img-row" style="justify-content:center">
+          <video src="image/7.mp4" onclick="openLbVideo(this)"></video>
+        </div>
+        <ul style="margin-top:14px">
+          <li>以"小时光"为创意核心，从脚本、分镜到执行全链路独立完成</li>
+          <li>用手办的第一视角串联办公桌与自然场景，隐喻从快节奏到慢生活的情绪转换</li>
+          <li>自然光实拍 + 轻感调色，用生活化镜头语言传递治愈系品牌温度</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ 04 市场产出：一行两个 等大 ============ -->
+<section id="market">
+  <div class="container">
+    <div class="sec-title">
+      <h2>04 / 市场部产出</h2>
+      <p>围绕业务目标的内容策划与活动落地</p>
+    </div>
+    <div class="duo-grid">
+
+      <div class="info-card">
+        <h3>Shake Shack 社群互动游戏</h3>
+        <div class="role">目标：提升复购率与转化率</div>
+        <div class="data">🎯 触达 1w 人次 · 整体互动率提升 3%</div>
+        <ul>
+          <li>从产品本身角度出发设计互动玩法</li>
+          <li>围绕复购与转化双目标制定机制</li>
+        </ul>
+        <div class="img-row">
+          <img src="image/8.png" alt="套餐收集赛" onclick="openLb(this)">
+          <img src="image/9.png" alt="开心果端午" onclick="openLb(this)">
+          <img src="image/10.png" alt="制作坊" onclick="openLb(this)">
+        </div>
+      </div>
+
+      <div class="info-card">
+        <h3>叮咚买菜品类页</h3>
+        <div class="role">品类页内容策划</div>
+        <div class="data">🎯 有效提升品类渗透率</div>
+        <ul>
+          <li>提供品类内容方向与视觉建议</li>
+          <li>优化用户浏览路径与购买转化</li>
+        </ul>
+        <div class="img-row">
+          <img src="image/11.jpg" alt="今晚的酒品类页" onclick="openLb(this)">
+          <img src="image/12.jpg" alt="气泡果汁品类页" onclick="openLb(this)">
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ 联系 ============ -->
+<footer id="contact">
+  <h2>期待与你聊聊</h2>
+  <p style="margin-top:14px;opacity:.85">投递秋招 · 运营 / 市场</p>
+  <p style="margin-top:22px">📧 L1103448162@163.com ｜ 📱 your-wechat</p>
+</footer>
+
+<!-- 点击放大灯箱 -->
+<div class="lightbox" id="lightbox" onclick="closeLb(event)">
+  <span class="close">×</span>
+  <div id="lbContent"></div>
+</div>
+
+<script>
+function openLb(img){
+  document.getElementById('lbContent').innerHTML='';
+  const clone=img.cloneNode(false);
+  clone.removeAttribute('onclick');
+  clone.style.cssText='max-width:92vw;max-height:88vh;border-radius:14px;object-fit:contain;cursor:default';
+  document.getElementById('lbContent').appendChild(clone);
+  document.getElementById('lightbox').classList.add('show');
+  document.body.style.overflow='hidden';
+}
+function openLbUrl(url){
+  document.getElementById('lbContent').innerHTML='';
+  const img=document.createElement('img');
+  img.src=url;
+  img.style.cssText='max-width:92vw;max-height:88vh;border-radius:14px;object-fit:contain;cursor:default';
+  document.getElementById('lbContent').appendChild(img);
+  document.getElementById('lightbox').classList.add('show');
+  document.body.style.overflow='hidden';
+}
+function openLbVideo(v){
+  document.getElementById('lbContent').innerHTML='';
+  const nv=document.createElement('video');
+  nv.src=v.src;nv.controls=true;nv.autoplay=true;
+  nv.style.cssText='max-width:92vw;max-height:88vh;border-radius:14px';
+  document.getElementById('lbContent').appendChild(nv);
+  document.getElementById('lightbox').classList.add('show');
+  document.body.style.overflow='hidden';
+}
+function closeLb(e){
+  if(e.target.classList.contains('lightbox')||e.target.classList.contains('close')){
+    document.getElementById('lightbox').classList.remove('show');
+    document.getElementById('lbContent').innerHTML='';
+    document.body.style.overflow='';
+  }
+}
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){
+    document.getElementById('lightbox').classList.remove('show');
+    document.getElementById('lbContent').innerHTML='';
+    document.body.style.overflow='';
+  }
+});
+</script>
+</body>
+</html>
